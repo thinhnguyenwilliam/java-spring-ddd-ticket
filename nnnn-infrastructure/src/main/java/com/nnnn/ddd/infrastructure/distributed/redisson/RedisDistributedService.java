@@ -1,7 +1,7 @@
 package com.nnnn.ddd.infrastructure.distributed.redisson;
 
 /**
- * Service interface to obtain Redis-based distributed locks.
+ * Service interface to get Redis-based distributed locks.
  * Each lock is identified by a unique key.
  */
 public interface RedisDistributedService {

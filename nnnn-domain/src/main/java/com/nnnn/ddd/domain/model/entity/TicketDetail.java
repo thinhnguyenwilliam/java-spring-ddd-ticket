@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -29,13 +29,13 @@ public class TicketDetail {
     private Long priceOriginal;
     private Long priceFlash;
 
-    private LocalDateTime saleStartTime;
-    private LocalDateTime saleEndTime;
+    private Date saleStartTime;
+    private Date saleEndTime;
 
     private int status;
     private Long activityId;
 
-    private LocalDateTime updatedAt;
-    private LocalDateTime createdAt;
+    private Date updatedAt;
+    private Date createdAt;
 
 }

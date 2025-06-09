@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 /**
  * VO tương tác giữa frontend và backend
@@ -32,9 +35,21 @@ public class ResultMessage<T> implements Serializable {
     private Integer code;
 
     /**
-     * Dấu thời gian
+     * Dấu thời gian (epoch millis)
      */
     private long timestamp = System.currentTimeMillis();
+
+    /**
+     * Dấu thời gian dạng chuỗi định dạng dễ đọc
+     */
+    private String timestampFormatted = formatTimestamp(timestamp);
+
+    private static String formatTimestamp(long epochMillis) {
+        // Customize your timezone here if needed
+        return Instant.ofEpochMilli(epochMillis)
+                .atZone(ZoneId.systemDefault())
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
 
     /**
      * Đối tượng kết quả

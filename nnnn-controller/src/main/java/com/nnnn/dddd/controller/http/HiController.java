@@ -1,4 +1,4 @@
-package com.nnnn.dddd.controller.resource;
+package com.nnnn.dddd.controller.http;
 
 import com.nnnn.ddd.application.service.event.EventAppService;
 import org.springframework.web.bind.annotation.GetMapping;

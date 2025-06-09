@@ -33,6 +33,8 @@ public class RedisInfrastructureServiceImpl implements RedisInfrastructureServic
 
     @Override
     public String getString(String key) {
+//        Object result = redisTemplate.opsForValue().get(key);
+//        log.info(String.valueOf(result));
         return Optional.ofNullable(redisTemplate.opsForValue().get(key))
                 .map(String::valueOf)
                 .orElse(null);
@@ -40,7 +42,9 @@ public class RedisInfrastructureServiceImpl implements RedisInfrastructureServic
 
     @Override
     public void setObject(String key, Object value) {
+        //log.info("Set redis::1, {}", key);
         if (!StringUtils.hasLength(key)) {
+            //log.info("Set redis::null, {}", StringUtils.hasLength(key));
             return;
         }
         try {
@@ -48,6 +52,10 @@ public class RedisInfrastructureServiceImpl implements RedisInfrastructureServic
         } catch (Exception e) {
             log.error("setObject error: {}", e.getMessage(), e);
         }
+        //        redisTemplate.opsForValue().set(key, value);
+//        // Kiểm tra xem giá trị có được lưu thành công hay không
+//        Object result = redisTemplate.opsForValue().get(key);
+//        log.info("Set redis::{}", result != null && result.equals(value));
     }
 
     @Override
@@ -58,11 +66,22 @@ public class RedisInfrastructureServiceImpl implements RedisInfrastructureServic
         if (result == null) {
             return null;
         }
+//        try {
+//            log.info("get Cache::1{}", JSON.parseObject((String) result, targetClass));
+//            return JSON.parseObject((String) result, targetClass);
+//        } catch (Exception e) {
+//            log.error("error Cache::{}", e);
+//            return null;
+//        }
+        // Nếu kết quả là một LinkedHashMap
 
         try {
             if (result instanceof String str) {
+                // Nếu result là String, thực hiện chuyển đổi bình thường
                 return objectMapper.readValue(str, targetClass);
             }
+
+            // Chuyển đổi LinkedHashMap thành đối tượng mục tiêu
             return objectMapper.convertValue(result, targetClass);
         } catch (JsonProcessingException e) {
             log.error("Error deserializing JSON to object: {}", e.getMessage(), e);
@@ -70,6 +89,6 @@ public class RedisInfrastructureServiceImpl implements RedisInfrastructureServic
             log.error("Error converting object to target class: {}", e.getMessage(), e);
         }
 
-        return null;
+        return null; // hoặc ném ra một ngoại lệ tùy ý
     }
 }

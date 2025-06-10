@@ -48,19 +48,19 @@ resilience4j:
     instances:
       checkRandom:
         registerHealthIndicator: true
-        slidingWindowSize: 10
-        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10 # Checks the last 10 calls
+        permittedNumberOfCallsInHalfOpenState: 3 #Allows 3 test calls before closing again
         #        slidingWindowType: TIME_BASED
         minimumNumberOfCalls: 5
-        waitDurationInOpenState: 5s
-        failureRateThreshold: 50
+        waitDurationInOpenState: 5s # Stays open for 5 s before testing again
+        failureRateThreshold: 50 #Opens the circuit if 50% fail
         eventConsumerBufferSize: 10
 
   ratelimiter:
     instances:
       backendA:
-        limitForPeriod: 2
-        limitRefreshPeriod: 10s
+        limitForPeriod: 2 #Allows 2 requests per refresh period.
+        limitRefreshPeriod: 10s #So, every 10 seconds, the rate limiter "refills" to allow 2 new requests.
         timeoutDuration: 0
         registerHealthIndicator: true
         eventConsumerBufferSize: 100

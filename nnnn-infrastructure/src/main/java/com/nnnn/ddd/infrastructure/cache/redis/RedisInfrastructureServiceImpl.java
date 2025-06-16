@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.time.Duration;
 import java.util.Optional;
 
 @Component
@@ -42,21 +43,20 @@ public class RedisInfrastructureServiceImpl implements RedisInfrastructureServic
 
     @Override
     public void setObject(String key, Object value) {
-        //log.info("Set redis::1, {}", key);
+        setObject(key, value, Duration.ofMinutes(10)); // Example: 10 minutes TTL
+    }
+
+    public void setObject(String key, Object value, Duration ttl) {
         if (!StringUtils.hasLength(key)) {
-            //log.info("Set redis::null, {}", StringUtils.hasLength(key));
             return;
         }
         try {
-            redisTemplate.opsForValue().set(key, value);
+            redisTemplate.opsForValue().set(key, value, ttl);
         } catch (Exception e) {
-            log.error("setObject error: {}", e.getMessage(), e);
+            log.error("setObject with TTL error: {}", e.getMessage(), e);
         }
-        //        redisTemplate.opsForValue().set(key, value);
-//        // Kiểm tra xem giá trị có được lưu thành công hay không
-//        Object result = redisTemplate.opsForValue().get(key);
-//        log.info("Set redis::{}", result != null && result.equals(value));
     }
+
 
     @Override
     public <T> T getObject(String key, Class<T> targetClass) {

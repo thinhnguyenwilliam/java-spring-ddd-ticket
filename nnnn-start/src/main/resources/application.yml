@@ -13,9 +13,12 @@ spring:
     hikari:
       maximum-pool-size: 20  # Số lượng tối đa kết nối
       minimum-idle: 5        # Số lượng kết nối tối thiểu trong pool
-    url: jdbc:mysql://localhost:3306/vetautet
+#    url: jdbc:mysql://localhost:3306/vetautet
+#    username: root
+#    password: 1234
+    url: jdbc:mysql://localhost:3316/vetautet
     username: root
-    password: 1234
+    password: root1234
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
   jpa:
